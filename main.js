@@ -134,3 +134,31 @@ tiltLetters.forEach((letter) => {
     letter.style.transform = 'rotateX(0deg) rotateY(0deg)'
   })
 })
+
+// === Avatar parallax effect ===
+const avatarGroups = document.querySelectorAll('.hero-avatar, .bio-avatar, .contact-avatar')
+
+avatarGroups.forEach((group) => {
+  const layers = group.querySelectorAll('.avatar-layer')
+
+  group.addEventListener('mousemove', (e) => {
+    const rect = group.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+
+    layers.forEach((layer, index) => {
+      const depth = (index + 1) * 4
+      const moveX = ((x - centerX) / centerX) * depth
+      const moveY = ((y - centerY) / centerY) * depth
+      layer.style.transform = `translate(${moveX}px, ${moveY}px)`
+    })
+  })
+
+  group.addEventListener('mouseleave', () => {
+    layers.forEach((layer, index) => {
+      layer.style.transform = ''
+    })
+  })
+})
