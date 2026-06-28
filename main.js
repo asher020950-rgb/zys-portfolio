@@ -69,22 +69,24 @@ setTheme(getPreferredTheme())
 const copyBtn = document.getElementById('copyEmail')
 const toast = document.getElementById('toast')
 
-copyBtn.addEventListener('click', async () => {
-  const email = copyBtn.dataset.email
-  try {
-    await navigator.clipboard.writeText(email)
-    showToast('Email copied to clipboard!')
-  } catch {
-    // Fallback
-    const textArea = document.createElement('textarea')
-    textArea.value = email
-    document.body.appendChild(textArea)
-    textArea.select()
-    document.execCommand('copy')
-    document.body.removeChild(textArea)
-    showToast('Email copied to clipboard!')
-  }
-})
+if (copyBtn && toast) {
+  copyBtn.addEventListener('click', async () => {
+    const email = copyBtn.dataset.email
+    try {
+      await navigator.clipboard.writeText(email)
+      showToast('Email copied to clipboard!')
+    } catch {
+      // Fallback
+      const textArea = document.createElement('textarea')
+      textArea.value = email
+      document.body.appendChild(textArea)
+      textArea.select()
+      const success = document.execCommand('copy')
+      document.body.removeChild(textArea)
+      showToast(success ? 'Email copied to clipboard!' : 'Failed to copy email')
+    }
+  })
+}
 
 function showToast(message) {
   toast.textContent = message

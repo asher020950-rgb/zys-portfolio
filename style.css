@@ -59,6 +59,7 @@ ul, ol {
   --nav-bg: rgba(255, 255, 255, 0.8);
   --toast-bg: #1a1a1a;
   --toast-text: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="dark"] {
@@ -74,6 +75,7 @@ ul, ol {
   --nav-bg: rgba(10, 10, 10, 0.8);
   --toast-bg: #f5f5f5;
   --toast-text: #1a1a1a;
+  --shadow: rgba(0, 0, 0, 0.4);
 }
 
 /* === Typography === */
@@ -181,6 +183,12 @@ p { margin-bottom: 1rem; color: var(--text-secondary); }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+/* Firefox scrollbar support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg-secondary);
 }
 
 /* === Navigation === */
@@ -498,7 +506,7 @@ p { margin-bottom: 1rem; color: var(--text-secondary); }
 
 .project-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 32px var(--shadow);
 }
 
 .card-image {
