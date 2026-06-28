@@ -262,3 +262,113 @@ p { margin-bottom: 1rem; color: var(--text-secondary); }
 [data-theme="dark"] .icon-moon { display: none; }
 [data-theme="light"] .icon-sun { display: none; }
 [data-theme="light"] .icon-moon { display: inline; }
+
+/* === Hero Section === */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 4rem;
+  gap: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-letters {
+  display: flex;
+  gap: 2rem;
+  perspective: 800px;
+}
+
+.hero-letter {
+  font-size: clamp(5rem, 15vw, 12rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--text-primary);
+  user-select: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hero-letter:nth-child(1) { color: var(--accent); }
+.hero-letter:nth-child(2) { color: var(--text-primary); }
+.hero-letter:nth-child(3) { color: var(--text-secondary); }
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.hero-avatar {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.avatar-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transition: transform 0.3s ease-out;
+}
+
+.avatar-layer.layer-base {
+  background: var(--accent);
+  opacity: 0.15;
+  transform: translate(0, 0);
+}
+
+.avatar-layer.layer-mid {
+  background: var(--accent);
+  opacity: 0.25;
+  transform: translate(4px, -4px);
+}
+
+.avatar-layer.layer-front {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  transform: translate(-4px, 4px);
+}
+
+.avatar-layer.layer-front::after {
+  content: 'Z';
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.hero-tagline {
+  font-size: 1.05rem;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.hero-bio {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
