@@ -93,3 +93,22 @@ function showToast(message) {
     toast.classList.remove('show')
   }, 2500)
 }
+
+// === Scroll reveal animations ===
+const revealElements = document.querySelectorAll('.reveal')
+
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px',
+}
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible')
+      revealObserver.unobserve(entry.target)
+    }
+  })
+}, observerOptions)
+
+revealElements.forEach((el) => revealObserver.observe(el))
