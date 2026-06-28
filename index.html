@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZYS | Portfolio</title>
+  <meta name="description" content="Personal portfolio of ZYS" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>Z</text></svg>" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-letters">
+      <a href="#section-z" class="nav-letter" data-section="z">Z</a>
+      <a href="#section-y" class="nav-letter" data-section="y">Y</a>
+      <a href="#section-s" class="nav-letter" data-section="s">S</a>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero section" id="hero">
+    <div class="hero-letters" id="heroLetters">
+      <span class="hero-letter tilt-letter" data-letter="Z">Z</span>
+      <span class="hero-letter tilt-letter" data-letter="Y">Y</span>
+      <span class="hero-letter tilt-letter" data-letter="S">S</span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-avatar" id="heroAvatar">
+        <div class="avatar-layer layer-base"></div>
+        <div class="avatar-layer layer-mid"></div>
+        <div class="avatar-layer layer-front"></div>
+      </div>
+      <div class="hero-text">
+        <h1 class="hero-name">ZYS</h1>
+        <p class="hero-tagline">Creative Developer &amp; Designer</p>
+        <p class="hero-bio">Building elegant digital experiences through clean code and thoughtful design.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Z: About / Bio -->
+  <section class="section content-section" id="section-z" data-section="z">
+    <div class="section-sidebar">
+      <span class="section-letter tilt-letter" data-letter="Z">Z</span>
+    </div>
+    <div class="section-body">
+      <div class="bio-header">
+        <div class="bio-avatar">
+          <div class="avatar-layer layer-base"></div>
+          <div class="avatar-layer layer-mid"></div>
+          <div class="avatar-layer layer-front"></div>
+        </div>
+        <div class="bio-intro">
+          <h2>About Me</h2>
+          <p class="bio-name">ZYS</p>
+          <p class="bio-desc">A passionate developer with expertise in full-stack web development, UI/UX design, and creative coding. I love turning complex problems into simple, beautiful solutions.</p>
+        </div>
+      </div>
+      <div class="skills-section">
+        <h3>Skills</h3>
+        <div class="skills-grid" id="skillsGrid">
+          <span class="skill-tag">HTML/CSS</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">Git</span>
+        </div>
+      </div>
+      <div class="awards-section">
+        <h3>Awards &amp; Recognition</h3>
+        <div class="awards-timeline">
+          <div class="award-item">
+            <span class="award-year">2026</span>
+            <div class="award-detail">
+              <span class="award-title">Best Innovation Award</span>
+              <span class="award-org">Tech Conference</span>
+            </div>
+          </div>
+          <div class="award-item">
+            <span class="award-year">2025</span>
+            <div class="award-detail">
+              <span class="award-title">Outstanding Project</span>
+              <span class="award-org">Hackathon XYZ</span>
+            </div>
+          </div>
+          <div class="award-item">
+            <span class="award-year">2024</span>
+            <div class="award-detail">
+              <span class="award-title">First Place — Web Dev</span>
+              <span class="award-org">University Competition</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Y: Projects -->
+  <section class="section content-section" id="section-y" data-section="y">
+    <div class="section-sidebar">
+      <span class="section-letter tilt-letter" data-letter="Y">Y</span>
+    </div>
+    <div class="section-body">
+      <h2>Projects</h2>
+      <div class="projects-grid" id="projectsGrid">
+        <article class="project-card">
+          <div class="card-image" style="background: var(--accent); opacity: 0.3;"></div>
+          <div class="card-body">
+            <h3 class="card-title">Project Alpha</h3>
+            <p class="card-desc">A full-stack web application built with React and Node.js.</p>
+            <div class="card-tags">
+              <span class="card-tag">React</span>
+              <span class="card-tag">Node.js</span>
+              <span class="card-tag">MongoDB</span>
+            </div>
+            <div class="card-links">
+              <a href="#" class="card-link" target="_blank">Demo →</a>
+              <a href="#" class="card-link" target="_blank">GitHub →</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="card-image" style="background: var(--accent); opacity: 0.25;"></div>
+          <div class="card-body">
+            <h3 class="card-title">Project Beta</h3>
+            <p class="card-desc">Mobile-first design system with 50+ accessible components.</p>
+            <div class="card-tags">
+              <span class="card-tag">TypeScript</span>
+              <span class="card-tag">CSS</span>
+              <span class="card-tag">Storybook</span>
+            </div>
+            <div class="card-links">
+              <a href="#" class="card-link" target="_blank">Demo →</a>
+              <a href="#" class="card-link" target="_blank">GitHub →</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="card-image" style="background: var(--accent); opacity: 0.2;"></div>
+          <div class="card-body">
+            <h3 class="card-title">Project Gamma</h3>
+            <p class="card-desc">Real-time data visualization dashboard for IoT sensors.</p>
+            <div class="card-tags">
+              <span class="card-tag">Python</span>
+              <span class="card-tag">WebSocket</span>
+              <span class="card-tag">D3.js</span>
+            </div>
+            <div class="card-links">
+              <a href="#" class="card-link" target="_blank">Demo →</a>
+              <a href="#" class="card-link" target="_blank">GitHub →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section S: Contact -->
+  <section class="section content-section" id="section-s" data-section="s">
+    <div class="section-sidebar">
+      <span class="section-letter tilt-letter" data-letter="S">S</span>
+    </div>
+    <div class="section-body contact-body">
+      <div class="contact-intro">
+        <div class="contact-avatar">
+          <div class="avatar-layer layer-base"></div>
+          <div class="avatar-layer layer-mid"></div>
+          <div class="avatar-layer layer-front"></div>
+        </div>
+        <h2>Get in Touch</h2>
+        <p>Have a project in mind? Let's work together.</p>
+      </div>
+      <div class="contact-links">
+        <div class="contact-item">
+          <span class="contact-label">Email</span>
+          <button class="contact-value copy-email" id="copyEmail" data-email="hello@zys.dev">
+            hello@zys.dev
+            <span class="copy-hint">Click to copy</span>
+          </button>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">GitHub</span>
+          <a href="https://github.com/zys" target="_blank" class="contact-value">github.com/zys →</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">Resume</span>
+          <a href="/assets/resume.pdf" class="contact-value" download>Download PDF →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast for copy feedback -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 ZYS. All rights reserved.</p>
+  </footer>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
