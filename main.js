@@ -112,3 +112,25 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, observerOptions)
 
 revealElements.forEach((el) => revealObserver.observe(el))
+
+// === Tilt effect on ZYS letters ===
+const tiltLetters = document.querySelectorAll('.tilt-letter')
+
+tiltLetters.forEach((letter) => {
+  letter.addEventListener('mousemove', (e) => {
+    const rect = letter.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+
+    const tiltX = ((y - centerY) / centerY) * -15
+    const tiltY = ((x - centerX) / centerX) * 15
+
+    letter.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`
+  })
+
+  letter.addEventListener('mouseleave', () => {
+    letter.style.transform = 'rotateX(0deg) rotateY(0deg)'
+  })
+})
