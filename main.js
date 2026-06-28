@@ -64,3 +64,32 @@ if (themeToggle) {
 
 // Initialize theme
 setTheme(getPreferredTheme())
+
+// === Copy email to clipboard ===
+const copyBtn = document.getElementById('copyEmail')
+const toast = document.getElementById('toast')
+
+copyBtn.addEventListener('click', async () => {
+  const email = copyBtn.dataset.email
+  try {
+    await navigator.clipboard.writeText(email)
+    showToast('Email copied to clipboard!')
+  } catch {
+    // Fallback
+    const textArea = document.createElement('textarea')
+    textArea.value = email
+    document.body.appendChild(textArea)
+    textArea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textArea)
+    showToast('Email copied to clipboard!')
+  }
+})
+
+function showToast(message) {
+  toast.textContent = message
+  toast.classList.add('show')
+  setTimeout(() => {
+    toast.classList.remove('show')
+  }, 2500)
+}
