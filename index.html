@@ -1,215 +1,285 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" class="lenis lenis-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZYS | Portfolio</title>
-  <meta name="description" content="Personal portfolio of ZYS" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>Z</text></svg>" />
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>张又升 | Creative Developer &amp; Designer</title>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="description" content="张又升 — Creative Developer &amp; Designer">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80' fill='%23d5cec7'>Z</text></svg>">
+
+  <link rel="stylesheet" href="/style.css">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
 </head>
 <body>
+<div id="__nuxt">
+  <div class="app">
 
-  <!-- Navigation -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-letters">
-      <a href="#section-z" class="nav-letter" data-section="z">Z</a>
-      <a href="#section-y" class="nav-letter" data-section="y">Y</a>
-      <a href="#section-s" class="nav-letter" data-section="s">S</a>
-    </div>
-    <div class="nav-actions">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <span class="icon-sun">☀️</span>
-        <span class="icon-moon">🌙</span>
-      </button>
-    </div>
-  </nav>
+    <!-- 3D Floating Letters Background -->
+    <div class="three-scene-container" id="threeScene"></div>
 
-  <!-- Hero Section -->
-  <section class="hero section" id="hero">
-    <div class="hero-letters" id="heroLetters">
-      <span class="hero-letter tilt-letter" data-letter="Z">Z</span>
-      <span class="hero-letter tilt-letter" data-letter="Y">Y</span>
-      <span class="hero-letter tilt-letter" data-letter="S">S</span>
-    </div>
-    <div class="hero-content">
-      <div class="hero-avatar" id="heroAvatar">
-        <div class="avatar-layer layer-base"></div>
-        <div class="avatar-layer layer-mid"></div>
-        <div class="avatar-layer layer-front"></div>
-      </div>
-      <div class="hero-text">
-        <h1 class="hero-name">ZYS</h1>
-        <p class="hero-tagline">Creative Developer &amp; Designer</p>
-        <p class="hero-bio">Building elegant digital experiences through clean code and thoughtful design.</p>
-      </div>
-    </div>
-  </section>
+    <!-- Noise Overlay -->
+    <div class="letters-scene__noise" id="noiseOverlay"></div>
 
-  <!-- Section Z: About / Bio -->
-  <section class="section content-section" id="section-z" data-section="z">
-    <div class="section-sidebar">
-      <span class="section-letter tilt-letter" data-letter="Z">Z</span>
-    </div>
-    <div class="section-body">
-      <div class="bio-header reveal">
-        <div class="bio-avatar">
-          <div class="avatar-layer layer-base"></div>
-          <div class="avatar-layer layer-mid"></div>
-          <div class="avatar-layer layer-front"></div>
-        </div>
-        <div class="bio-intro">
-          <h2>About Me</h2>
-          <p class="bio-name">ZYS</p>
-          <p class="bio-desc">A passionate developer with expertise in full-stack web development, UI/UX design, and creative coding. I love turning complex problems into simple, beautiful solutions.</p>
-        </div>
-      </div>
-      <div class="skills-section reveal reveal-delay-1">
-        <h3>Skills</h3>
-        <div class="skills-grid" id="skillsGrid">
-          <span class="skill-tag">HTML/CSS</span>
-          <span class="skill-tag">JavaScript</span>
-          <span class="skill-tag">TypeScript</span>
-          <span class="skill-tag">React</span>
-          <span class="skill-tag">Node.js</span>
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">Figma</span>
-          <span class="skill-tag">Git</span>
-        </div>
-      </div>
-      <div class="awards-section reveal reveal-delay-2">
-        <h3>Awards &amp; Recognition</h3>
-        <div class="awards-timeline">
-          <div class="award-item">
-            <span class="award-year">2026</span>
-            <div class="award-detail">
-              <span class="award-title">Best Innovation Award</span>
-              <span class="award-org">Tech Conference</span>
+    <!-- Header / Fixed Corner Navigation -->
+    <header class="header" id="header">
+      <a href="#" class="header__logo" data-section="home">
+        <span class="header__logo-text">ZYS</span>
+      </a>
+      <ul class="header__nav">
+        <li class="header__nav__bio">
+          <a href="#" data-section="bio">
+            <div>
+              <span><div>Bio</div></span>
+              <span><div>Bio</div></span>
+            </div>
+          </a>
+        </li>
+        <li class="header__nav__projects">
+          <a href="#" data-section="projects">
+            <div>
+              <span><div>Projets</div></span>
+              <span><div>Projets</div></span>
+            </div>
+          </a>
+        </li>
+        <li class="header__nav__awards">
+          <a href="#" data-section="awards">
+            <div>
+              <span><div>Distinctions</div></span>
+              <span><div>Distinctions</div></span>
+            </div>
+          </a>
+        </li>
+        <li class="header__nav__contact">
+          <a href="#" data-section="contact">
+            <div>
+              <span><div>Contact</div></span>
+              <span><div>Contact</div></span>
+            </div>
+          </a>
+        </li>
+        <li class="header__nav__toggle">
+          <a href="#" data-section="toggle">
+            <div>
+              <span><div>Menu</div></span>
+              <span><div>Fermer</div></span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </header>
+
+    <!-- Main Content -->
+    <main class="page">
+
+      <!-- Hero spacer (full screen to see 3D letters) -->
+      <section class="letters-scene" id="home"></section>
+
+      <!-- Bio Section -->
+      <section id="bio" class="bio">
+        <div class="wrapper">
+          <div class="bio__inner">
+            <div class="bio__intro">
+              <h1 class="h1-style">张又升<br>Creative Developer<br>&amp; Designer</h1>
+            </div>
+            <div class="bio__columns">
+              <div class="bio__columns__item">
+                <p>这里是个人简介。张又升是一名富有创造力的开发者与设计师，专注于将复杂问题转化为简洁优雅的数字体验。跨越设计与开发的边界，用代码表达创意，以设计驱动创新。</p>
+              </div>
+              <div class="bio__columns__item">
+                <p>专业技能覆盖多个领域：从视觉设计到前端开发，从交互原型到产品落地。始终追求在技术与艺术的交汇处，创造出既有美学价值又具备实用功能的数字作品。</p>
+              </div>
+            </div>
+            <div class="bio__image" id="bioImage">
+              <div class="bio__image__item"><img src="/assets/images/avatar.jpg" alt="" loading="lazy"></div>
+              <div class="bio__image__item"><img src="/assets/images/avatar.jpg" alt="" loading="lazy"></div>
+              <div class="bio__image__item"><img src="/assets/images/avatar.jpg" alt="" loading="lazy"></div>
+              <div class="bio__image__item"><img src="/assets/images/avatar.jpg" alt="" loading="lazy"></div>
+              <div class="bio__image__item"><img src="/assets/images/avatar.jpg" alt="" loading="lazy"></div>
+              <div class="bio__image__item"><img src="/assets/images/avatar.jpg" alt="" loading="lazy"></div>
+              <div class="bio__image__item"><img src="/assets/images/avatar.jpg" alt="" loading="lazy"></div>
+            </div>
+            <div class="bio__text">
+              <p><strong>Skills</strong> — Figma, Photoshop, Vibe Coding, HTML</p>
             </div>
           </div>
-          <div class="award-item">
-            <span class="award-year">2025</span>
-            <div class="award-detail">
-              <span class="award-title">Outstanding Project</span>
-              <span class="award-org">Hackathon XYZ</span>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="projects">
+        <div class="wrapper">
+          <div class="projects__bg"></div>
+          <h1 class="projects__title h1-style">Projets</h1>
+          <div class="projects__list" id="projectsList">
+            <div class="projects__list__item">
+              <a href="#" target="_blank" rel="noopener" class="projects__list__item__title" aria-label="Project 01">
+                <span class="project-number">01</span>
+                <span class="project-name">Project Alpha</span>
+              </a>
+              <a href="#" class="projects__list__item__thumb" data-index="0" aria-label="Project Alpha">
+                <div class="thumb-placeholder"></div>
+              </a>
             </div>
-          </div>
-          <div class="award-item">
-            <span class="award-year">2024</span>
-            <div class="award-detail">
-              <span class="award-title">First Place — Web Dev</span>
-              <span class="award-org">University Competition</span>
+            <div class="projects__list__item">
+              <a href="#" target="_blank" rel="noopener" class="projects__list__item__title" aria-label="Project 02">
+                <span class="project-number">02</span>
+                <span class="project-name">Project Beta</span>
+              </a>
+              <a href="#" class="projects__list__item__thumb" data-index="1" aria-label="Project Beta">
+                <div class="thumb-placeholder"></div>
+              </a>
+            </div>
+            <div class="projects__list__item">
+              <a href="#" target="_blank" rel="noopener" class="projects__list__item__title" aria-label="Project 03">
+                <span class="project-number">03</span>
+                <span class="project-name">Project Gamma</span>
+              </a>
+              <a href="#" class="projects__list__item__thumb" data-index="2" aria-label="Project Gamma">
+                <div class="thumb-placeholder"></div>
+              </a>
+            </div>
+            <div class="projects__list__item">
+              <a href="#" target="_blank" rel="noopener" class="projects__list__item__title" aria-label="Project 04">
+                <span class="project-number">04</span>
+                <span class="project-name">Project Delta</span>
+              </a>
+              <a href="#" class="projects__list__item__thumb" data-index="3" aria-label="Project Delta">
+                <div class="thumb-placeholder"></div>
+              </a>
+            </div>
+            <div class="projects__list__item">
+              <a href="#" target="_blank" rel="noopener" class="projects__list__item__title" aria-label="Project 05">
+                <span class="project-number">05</span>
+                <span class="project-name">Project Epsilon</span>
+              </a>
+              <a href="#" class="projects__list__item__thumb" data-index="4" aria-label="Project Epsilon">
+                <div class="thumb-placeholder"></div>
+              </a>
+            </div>
+            <div class="projects__list__item">
+              <a href="#" target="_blank" rel="noopener" class="projects__list__item__title" aria-label="Project 06">
+                <span class="project-number">06</span>
+                <span class="project-name">Project Zeta</span>
+              </a>
+              <a href="#" class="projects__list__item__thumb" data-index="5" aria-label="Project Zeta">
+                <div class="thumb-placeholder"></div>
+              </a>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- Section Y: Projects -->
-  <section class="section content-section" id="section-y" data-section="y">
-    <div class="section-sidebar">
-      <span class="section-letter tilt-letter" data-letter="Y">Y</span>
-    </div>
-    <div class="section-body">
-      <h2>Projects</h2>
-      <div class="projects-grid" id="projectsGrid">
-        <article class="project-card reveal reveal-delay-1">
-          <div class="card-image" style="background: var(--accent); opacity: 0.3;"></div>
-          <div class="card-body">
-            <h3 class="card-title">Project Alpha</h3>
-            <p class="card-desc">A full-stack web application built with React and Node.js.</p>
-            <div class="card-tags">
-              <span class="card-tag">React</span>
-              <span class="card-tag">Node.js</span>
-              <span class="card-tag">MongoDB</span>
+      <!-- Awards Section -->
+      <section id="awards" class="awards">
+        <div class="wrapper">
+          <h1 class="h1-style">Distinctions</h1>
+          <div class="awards__list" id="awardsList">
+            <div class="awards__year-group">
+              <h2 class="awards__year">2025</h2>
+              <div class="awards__items">
+                <div class="awards__item">
+                  <h3 class="awards__item__title">米兰设计周 · 奖项若干</h3>
+                  <p class="awards__item__detail">Milan Design Week — 多项作品入选获奖</p>
+                  <span class="awards__badge">Design</span>
+                </div>
+                <div class="awards__item">
+                  <h3 class="awards__item__title">中国移动应用大赛 · 省级二等奖</h3>
+                  <p class="awards__item__detail">China Mobile Application Competition</p>
+                  <span class="awards__badge">App</span>
+                </div>
+                <div class="awards__item">
+                  <h3 class="awards__item__title">大学生创业大赛 · 省级立项</h3>
+                  <p class="awards__item__detail">University Entrepreneurship Competition</p>
+                  <span class="awards__badge">Innovation</span>
+                </div>
+                <div class="awards__item">
+                  <h3 class="awards__item__title">蓝桥杯 · 国家级三等奖 / 省级一等奖</h3>
+                  <p class="awards__item__detail">Lanqiao Cup — National 3rd Prize, Provincial 1st Prize</p>
+                  <span class="awards__badge">Coding</span>
+                </div>
+                <div class="awards__item">
+                  <h3 class="awards__item__title">华灿奖 · 二等奖</h3>
+                  <p class="awards__item__detail">Huacan Award — 2nd Prize</p>
+                  <span class="awards__badge">Design</span>
+                </div>
+                <div class="awards__item">
+                  <h3 class="awards__item__title">大学生工业设计大赛 · 省级二等奖</h3>
+                  <p class="awards__item__detail">University Industrial Design Competition</p>
+                  <span class="awards__badge">Design</span>
+                </div>
+              </div>
             </div>
-            <div class="card-links">
-              <a href="javascript:void(0)" class="card-link" target="_blank" rel="noopener noreferrer">Demo →</a>
-              <a href="javascript:void(0)" class="card-link" target="_blank" rel="noopener noreferrer">GitHub →</a>
+            <div class="awards__year-group">
+              <h2 class="awards__year">2024</h2>
+              <div class="awards__items">
+                <div class="awards__item">
+                  <h3 class="awards__item__title">全国高校商业精英挑战赛 · 国家级一等奖</h3>
+                  <p class="awards__item__detail">National Business Elite Challenge — 1st Prize</p>
+                  <span class="awards__badge">Business</span>
+                </div>
+              </div>
             </div>
           </div>
-        </article>
-        <article class="project-card reveal reveal-delay-2">
-          <div class="card-image" style="background: var(--accent); opacity: 0.25;"></div>
-          <div class="card-body">
-            <h3 class="card-title">Project Beta</h3>
-            <p class="card-desc">Mobile-first design system with 50+ accessible components.</p>
-            <div class="card-tags">
-              <span class="card-tag">TypeScript</span>
-              <span class="card-tag">CSS</span>
-              <span class="card-tag">Storybook</span>
+        </div>
+      </section>
+
+      <!-- Contact Section / Footer -->
+      <section id="contact" class="contact">
+        <div class="wrapper">
+          <div class="contact__inner">
+            <div class="contact__thumb">
+              <img src="/assets/images/avatar.jpg" alt="" loading="lazy">
             </div>
-            <div class="card-links">
-              <a href="javascript:void(0)" class="card-link" target="_blank" rel="noopener noreferrer">Demo →</a>
-              <a href="javascript:void(0)" class="card-link" target="_blank" rel="noopener noreferrer">GitHub →</a>
+            <div class="contact__info">
+              <h2 class="h2-style">张又升</h2>
+              <p class="contact__role">Creative Developer &amp; Designer</p>
+              <div class="contact__links">
+                <a href="#" class="contact__link copy-email" data-email="23405200230@qq.com">
+                  <span class="contact__link-label">QQ</span>
+                  <span class="contact__link-value">23405200230@qq.com</span>
+                  <span class="contact__link-hint">Copier</span>
+                </a>
+                <a href="#" class="contact__link copy-email" data-email="asher020950@gmail.com">
+                  <span class="contact__link-label">Gmail</span>
+                  <span class="contact__link-value">asher020950@gmail.com</span>
+                  <span class="contact__link-hint">Copier</span>
+                </a>
+                <div class="contact__link">
+                  <span class="contact__link-label">Tel</span>
+                  <span class="contact__link-value">19271701492</span>
+                </div>
+                <div class="contact__link">
+                  <span class="contact__link-label">微信</span>
+                  <span class="contact__link-value">Z19271701492</span>
+                </div>
+              </div>
+              <div class="contact__social">
+                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="contact__social-link">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/>
+                  </svg>
+                </a>
+              </div>
+              <p class="contact__copyright">© 2026 张又升</p>
             </div>
           </div>
-        </article>
-        <article class="project-card reveal reveal-delay-3">
-          <div class="card-image" style="background: var(--accent); opacity: 0.2;"></div>
-          <div class="card-body">
-            <h3 class="card-title">Project Gamma</h3>
-            <p class="card-desc">Real-time data visualization dashboard for IoT sensors.</p>
-            <div class="card-tags">
-              <span class="card-tag">Python</span>
-              <span class="card-tag">WebSocket</span>
-              <span class="card-tag">D3.js</span>
-            </div>
-            <div class="card-links">
-              <a href="javascript:void(0)" class="card-link" target="_blank" rel="noopener noreferrer">Demo →</a>
-              <a href="javascript:void(0)" class="card-link" target="_blank" rel="noopener noreferrer">GitHub →</a>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section S: Contact -->
-  <section class="section content-section" id="section-s" data-section="s">
-    <div class="section-sidebar">
-      <span class="section-letter tilt-letter" data-letter="S">S</span>
-    </div>
-    <div class="section-body contact-body">
-      <div class="contact-intro reveal">
-        <div class="contact-avatar">
-          <div class="avatar-layer layer-base"></div>
-          <div class="avatar-layer layer-mid"></div>
-          <div class="avatar-layer layer-front"></div>
         </div>
-        <h2>Get in Touch</h2>
-        <p>Have a project in mind? Let's work together.</p>
-      </div>
-      <div class="contact-links reveal reveal-delay-1">
-        <div class="contact-item">
-          <span class="contact-label">Email</span>
-          <button class="contact-value copy-email" id="copyEmail" data-email="hello@zys.dev">
-            hello@zys.dev
-            <span class="copy-hint">Click to copy</span>
-          </button>
-        </div>
-        <div class="contact-item">
-          <span class="contact-label">GitHub</span>
-          <a href="https://github.com/zys" target="_blank" rel="noopener noreferrer" class="contact-value">github.com/zys →</a>
-        </div>
-        <div class="contact-item">
-          <span class="contact-label">Resume</span>
-          <!-- Placeholder: replace with actual resume link -->
-          <a href="#" class="contact-value">Download PDF →</a>
-        </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- Toast for copy feedback -->
-  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+    </main>
+  </div>
+</div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; 2026 ZYS. All rights reserved.</p>
-  </footer>
-
-  <script type="module" src="/main.js"></script>
+<script type="module" src="/main.js"></script>
 </body>
 </html>
