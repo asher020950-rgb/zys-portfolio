@@ -372,3 +372,111 @@ p { margin-bottom: 1rem; color: var(--text-secondary); }
   color: var(--text-secondary);
   line-height: 1.7;
 }
+
+/* === Bio Section (Z) === */
+.bio-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.bio-avatar {
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.bio-intro {
+  flex: 1;
+}
+
+.bio-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.bio-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* === Skills === */
+.skills-section {
+  margin-bottom: 3rem;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.skill-tag:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-secondary));
+}
+
+/* === Awards === */
+.awards-section {
+  margin-bottom: 2rem;
+}
+
+.awards-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.award-item {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.award-item:last-child {
+  border-bottom: none;
+}
+
+.award-year {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  min-width: 3.5rem;
+}
+
+.award-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.award-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.award-org {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
