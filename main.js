@@ -1,7 +1,7 @@
 import './style.css'
 
 // =====================================================
-// 1. THREE.JS — Floating 3D Letters
+// 1. THREE.JS — Floating 3D Letters (Hero + Section)
 // =====================================================
 async function initThreeScene() {
   const container = document.getElementById('threeScene')
@@ -11,8 +11,8 @@ async function initThreeScene() {
     const THREE = await import('three')
 
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
-    camera.position.z = 250
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000)
+    camera.position.z = 300
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
@@ -20,91 +20,204 @@ async function initThreeScene() {
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
 
-    // Create letter textures on canvas
-    function createLetterTexture(letter, color, size = 128) {
+    // Create letter textures
+    function createLetterCanvas(letter, color, size = 256) {
       const canvas = document.createElement('canvas')
       canvas.width = size
       canvas.height = size
       const ctx = canvas.getContext('2d')
       ctx.clearRect(0, 0, size, size)
       ctx.fillStyle = color
-      ctx.font = `Bold ${size * 0.65}px Inter, system-ui, sans-serif`
+      const fontSize = size * 0.7
+      ctx.font = `Bold ${fontSize}px Inter, system-ui, sans-serif`
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
+      ctx.shadowColor = 'rgba(0,0,0,0.5)'
+      ctx.shadowBlur = 20
       ctx.fillText(letter, size / 2, size / 2)
-      const texture = new THREE.CanvasTexture(canvas)
-      texture.needsUpdate = true
-      return texture
+      return canvas
     }
 
-    const colors = ['#d5cec7', '#f6ff93', '#d5cec7', '#f6ff93', '#d5cec7']
-    const chars = ['Z', 'Y', 'S', 'Z', 'Y', 'S', 'Z', 'Y', 'S', 'Z', 'Y', 'S']
-    const meshes = []
+    function createLetterSprite(letter, color, size) {
+      const canvas = createLetterCanvas(letter, color, 256)
+      const texture = new THREE.CanvasTexture(canvas)
+      texture.needsUpdate = true
+      const material = new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true,
+        opacity: 1,
+        depthWrite: false,
+        blending: THREE.NormalBlending,
+      })
+      const sprite = new THREE.Sprite(material)
+      sprite.scale.set(size, size, 1)
+      sprite.userData = { letter, baseSize: size, floatPhase: Math.random() * Math.PI * 2 }
+      return sprite
+    }
 
-    // Create clusters of letters
-    for (let cluster = 0; cluster < 4; cluster++) {
-      chars.forEach((char, i) => {
-        const hue = cluster % 2 === 0 ? '#d5cec7' : '#f6ff93'
-        const color = i % 2 === 0 ? '#d5cec7' : (i % 3 === 0 ? '#f6ff93' : '#d5cec7')
-        const tex = createLetterTexture(char, color)
-        const material = new THREE.MeshBasicMaterial({
-          map: tex,
-          transparent: true,
-          side: THREE.DoubleSide,
-          opacity: 0.15 + Math.random() * 0.35,
-          depthWrite: false,
-        })
-        const size = 10 + Math.random() * 45
-        const geometry = new THREE.PlaneGeometry(size, size)
-        const mesh = new THREE.Mesh(geometry, material)
+    // ─── Main Hero Letters (Z, Y, S) ───
+    const heroLetters = {}
+    const letters = ['Z', 'Y', 'S']
+    const colors = { Z: '#d5cec7', Y: '#d5cec7', S: '#d5cec7' }
+    const letterSize = 60
 
-        const spreadX = 350
-        const spreadY = 350
-        const spreadZ = 200
+    letters.forEach((l) => {
+      const sprite = createLetterSprite(l, colors[l], letterSize)
+      // Initial spread positions for hero
+      const positions = { Z: { x: -80, y: 0 }, Y: { x: 80, y: 0 }, S: { x: 0, y: -60 } }
+      sprite.position.set(positions[l].x, positions[l].y, 0)
+      sprite.userData.floatAmp = 8 + Math.random() * 12
+      sprite.userData.floatSpeed = 0.3 + Math.random() * 0.4
+      sprite.userData.homeX = positions[l].x
+      sprite.userData.homeY = positions[l].y
+      scene.add(sprite)
+      heroLetters[l] = sprite
+    })
 
-        mesh.position.set(
-          (Math.random() - 0.5) * spreadX,
-          (Math.random() - 0.5) * spreadY,
-          (Math.random() - 0.5) * spreadZ,
-        )
+    // ─── Ambient Small Letters ───
+    const ambientLetters = []
+    const ambientChars = ['Z', 'Y', 'S', 'Z', 'Y', 'S', 'Z', 'Y', 'S']
+    const ambientColors = ['#d5cec7', '#f6ff93', '#d5cec7', '#f6ff93', '#d5cec7']
 
-        mesh.rotation.set(
-          (Math.random() - 0.5) * Math.PI,
-          (Math.random() - 0.5) * Math.PI,
-          (Math.random() - 0.5) * Math.PI,
-        )
+    ambientChars.forEach((char, i) => {
+      const color = ambientColors[i % ambientColors.length]
+      const size = 8 + Math.random() * 20
+      const sprite = createLetterSprite(char, color, size)
+      const baseOpacity = 0.1 + Math.random() * 0.25
+      sprite.position.set(
+        (Math.random() - 0.5) * 500,
+        (Math.random() - 0.5) * 400,
+        (Math.random() - 0.5) * 200 - 100,
+      )
+      sprite.material.opacity = baseOpacity
+      sprite.userData = {
+        baseOpacity,
+        floatAmp: 3 + Math.random() * 10,
+        floatSpeed: 0.1 + Math.random() * 0.3,
+        floatPhase: Math.random() * Math.PI * 2,
+        homeX: sprite.position.x,
+        homeY: sprite.position.y,
+        homeZ: sprite.position.z,
+        rotSpeed: (Math.random() - 0.5) * 0.005,
+      }
+      scene.add(sprite)
+      ambientLetters.push(sprite)
+    })
 
-        mesh.userData = {
-          rotSpeedX: (Math.random() - 0.5) * 0.008,
-          rotSpeedY: (Math.random() - 0.5) * 0.008,
-          rotSpeedZ: (Math.random() - 0.5) * 0.008,
-          floatSpeed: 0.2 + Math.random() * 0.4,
-          floatOffset: Math.random() * Math.PI * 2,
-          floatAmount: 3 + Math.random() * 12,
-          initialX: mesh.position.x,
-          initialY: mesh.position.y,
-          initialZ: mesh.position.z,
-          phase: Math.random() * Math.PI * 2,
+    // ─── Scroll-based letter state machine ───
+    // Map sections to normalized scroll progression
+    const sections = ['hero', 'bio', 'projects', 'awards', 'contact']
+    const sectionBreakpoints = [0, 0.15, 0.35, 0.55, 0.8]
+    // Normalized section transition width
+    const transitionWidth = 0.05
+
+    // For each section, define where each letter should be
+    const letterStates = {
+      hero: {
+        Z: { x: -80, y: 0, z: 0, opacity: 1, scale: 1.0 },
+        Y: { x: 80, y: 0, z: 0, opacity: 1, scale: 1.0 },
+        S: { x: 0, y: -60, z: 0, opacity: 1, scale: 1.0 },
+      },
+      bio: {
+        Z: { x: -220, y: 0, z: 20, opacity: 1, scale: 2.8 },
+        Y: { x: 300, y: -100, z: -80, opacity: 0, scale: 0.3 },
+        S: { x: 300, y: 100, z: -80, opacity: 0, scale: 0.3 },
+      },
+      projects: {
+        Z: { x: -400, y: -100, z: -150, opacity: 0, scale: 0.2 },
+        Y: { x: -220, y: 0, z: 20, opacity: 1, scale: 2.8 },
+        S: { x: 400, y: 0, z: -150, opacity: 0, scale: 0.2 },
+      },
+      awards: {
+        Z: { x: -400, y: -100, z: -150, opacity: 0, scale: 0.2 },
+        Y: { x: -220, y: 0, z: 20, opacity: 0.6, scale: 1.8 },
+        S: { x: 400, y: 0, z: -150, opacity: 0, scale: 0.2 },
+      },
+      contact: {
+        Z: { x: -400, y: 0, z: -150, opacity: 0, scale: 0.2 },
+        Y: { x: -400, y: 0, z: -150, opacity: 0, scale: 0.2 },
+        S: { x: -220, y: 0, z: 20, opacity: 1, scale: 2.8 },
+      },
+    }
+
+    // Track active sections for letter states
+    let currentLetters = { Z: { ...letterStates.hero.Z }, Y: { ...letterStates.hero.Y }, S: { ...letterStates.hero.S } }
+
+    function lerp(a, b, t) { return a + (b - a) * t }
+    function clamp(v, min, max) { return Math.max(min, Math.min(max, v)) }
+
+    function updateLetters(scrollNorm) {
+      // Find which section pair we're between
+      let fromIdx = 0
+      let toIdx = 0
+      let t = 0
+
+      for (let i = 0; i < sectionBreakpoints.length; i++) {
+        if (scrollNorm >= sectionBreakpoints[i]) {
+          fromIdx = i
         }
+      }
+      toIdx = Math.min(fromIdx + 1, sectionBreakpoints.length - 1)
 
-        scene.add(mesh)
-        meshes.push(mesh)
+      if (fromIdx < sectionBreakpoints.length - 1) {
+        const fromBP = sectionBreakpoints[fromIdx]
+        const toBP = sectionBreakpoints[toIdx]
+        const effectiveWidth = toBP - fromBP
+        t = effectiveWidth > 0 ? clamp((scrollNorm - fromBP) / effectiveWidth, 0, 1) : 0
+      } else {
+        t = 1
+      }
+
+      const fromSection = sections[fromIdx]
+      const toSection = sections[toIdx]
+
+      // For each letter, interpolate between from-state and to-state
+      const fromState = letterStates[fromSection]
+      const toState = letterStates[toSection] || fromState
+
+      ;['Z', 'Y', 'S'].forEach((letter) => {
+        const fs = fromState[letter]
+        const ts = toState[letter]
+
+        const x = lerp(fs.x, ts.x, t)
+        const y = lerp(fs.y, ts.y, t)
+        const z = lerp(fs.z, ts.z, t)
+        const opacity = lerp(fs.opacity, ts.opacity, t)
+        const scale = lerp(fs.scale, ts.scale, t)
+
+        const sprite = heroLetters[letter]
+        if (sprite) {
+          sprite.position.set(x, y, z)
+          sprite.material.opacity = opacity
+          sprite.scale.set(
+            letterSize * scale,
+            letterSize * scale,
+            1,
+          )
+        }
       })
     }
 
+    // ─── Animation loop ───
     function animate() {
       requestAnimationFrame(animate)
       const time = Date.now() * 0.001
 
-      meshes.forEach((mesh) => {
-        const ud = mesh.userData
-        mesh.position.x = ud.initialX + Math.sin(time * ud.floatSpeed + ud.floatOffset) * ud.floatAmount
-        mesh.position.y = ud.initialY + Math.cos(time * ud.floatSpeed * 0.7 + ud.floatOffset + ud.phase) * ud.floatAmount * 0.8
-        mesh.position.z = ud.initialZ + Math.sin(time * ud.floatSpeed * 0.5 + ud.floatOffset + ud.phase) * ud.floatAmount * 0.5
+      // Hero letters gentle float (minimal, natural)
+      Object.values(heroLetters).forEach((sprite) => {
+        const ud = sprite.userData
+        const float = Math.sin(time * ud.floatSpeed + ud.floatPhase) * ud.floatAmp * 0.2
+        // Only apply float offset on top of the state-machine position
+        sprite.userData.floatOffset = float
+      })
 
-        mesh.rotation.x += ud.rotSpeedX
-        mesh.rotation.y += ud.rotSpeedY
-        mesh.rotation.z += ud.rotSpeedZ
+      // Ambient letters float
+      ambientLetters.forEach((sprite) => {
+        const ud = sprite.userData
+        const floatY = Math.sin(time * ud.floatSpeed + ud.floatPhase) * ud.floatAmp
+        const floatX = Math.cos(time * ud.floatSpeed * 0.7 + ud.floatPhase * 1.3) * ud.floatAmp * 0.6
+        sprite.position.x = ud.homeX + floatX
+        sprite.position.y = ud.homeY + floatY
       })
 
       renderer.render(scene, camera)
@@ -112,7 +225,7 @@ async function initThreeScene() {
 
     animate()
 
-    // Resize handler
+    // ─── Resize handler ───
     window.addEventListener('resize', () => {
       const w = window.innerWidth
       const h = window.innerHeight
@@ -121,39 +234,32 @@ async function initThreeScene() {
       renderer.setSize(w, h)
     })
 
-    // Dim on mobile
-    if (window.innerWidth <= 900) {
-      meshes.forEach((m) => { m.material.opacity *= 0.6 })
-    }
+    // ─── Expose for scroll updates ───
+    window.__heroLetters = heroLetters
+    window.__updateLetters = updateLetters
+    window.__ambientLetters = ambientLetters
+
   } catch (e) {
-    console.warn('Three.js scene not available:', e)
-    // Fallback: simple CSS floating letters
-    const fallback = document.createElement('div')
-    fallback.className = 'fallback-letters'
-    fallback.textContent = 'Z Y S'
-    container.appendChild(fallback)
+    console.warn('Three.js unavailable:', e)
+    container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:clamp(80px,10vw,200px);font-weight:100;color:var(--color-gray);letter-spacing:0.2em;opacity:0.15;">Z Y S</div>'
   }
 }
 
 // =====================================================
-// 2. NOISE OVERLAY — generated canvas texture
+// 2. NOISE OVERLAY
 // =====================================================
 function initNoiseOverlay() {
   const el = document.getElementById('noiseOverlay')
   if (!el) return
-
   const canvas = document.createElement('canvas')
-  canvas.width = 256
-  canvas.height = 256
+  canvas.width = 128
+  canvas.height = 128
   const ctx = canvas.getContext('2d')
-  const imageData = ctx.createImageData(256, 256)
+  const imageData = ctx.createImageData(128, 128)
   const data = imageData.data
   for (let i = 0; i < data.length; i += 4) {
     const v = Math.random() * 255
-    data[i] = v
-    data[i + 1] = v
-    data[i + 2] = v
-    data[i + 3] = 20
+    data[i] = v; data[i + 1] = v; data[i + 2] = v; data[i + 3] = 18
   }
   ctx.putImageData(imageData, 0, 0)
   el.style.backgroundImage = `url(${canvas.toDataURL()})`
@@ -163,25 +269,21 @@ function initNoiseOverlay() {
 // =====================================================
 // 3. DESKTOP DETECTION
 // =====================================================
-const isDesktop = window.innerWidth > 900 && !('ontouchstart' in window)
-if (isDesktop) document.body.classList.add('desktop')
-
-// =====================================================
-// 4. NAVIGATION — Scroll reveal animation
-// =====================================================
-function initNavAnimation() {
-  const header = document.getElementById('header')
-  if (!header) return
-  // Trigger the initial slide-in animation after a short delay
-  setTimeout(() => {
-    header.classList.add('animate')
-  }, 100)
+if (window.innerWidth > 900 && !('ontouchstart' in window)) {
+  document.body.classList.add('desktop')
 }
 
 // =====================================================
-// 5. NAVIGATION — Section scrolling
+// 4. NAV INIT — Entrance animation
 // =====================================================
-const navLinks = document.querySelectorAll('.header__nav li a[data-section]')
+function initNavAnimation() {
+  const header = document.getElementById('header')
+  if (header) setTimeout(() => header.classList.add('animate'), 100)
+}
+
+// =====================================================
+// 5. NAV — Click scrolling
+// =====================================================
 const sections = {
   bio: document.getElementById('bio'),
   projects: document.getElementById('projects'),
@@ -189,24 +291,17 @@ const sections = {
   contact: document.getElementById('contact'),
 }
 
-navLinks.forEach((link) => {
+document.querySelectorAll('.header__nav li a[data-section]').forEach((link) => {
   link.addEventListener('click', (e) => {
     const section = link.dataset.section
-    if (section === 'toggle') {
-      toggleMobileMenu()
-      return
-    }
-    if (section === 'home' || section === 'bio' || section === 'projects' || section === 'awards' || section === 'contact') {
+    if (section === 'toggle') { toggleMobileMenu(); return }
+    if (section === 'home') { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); return }
+    if (section === 'bio' || section === 'projects' || section === 'awards' || section === 'contact') {
       e.preventDefault()
       const target = sections[section]
-      if (section === 'home' || !target) {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      } else {
+      if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-      // Close mobile menu if open
-      if (document.body.classList.contains('nav-opened')) {
-        toggleMobileMenu()
+        if (document.body.classList.contains('nav-opened')) toggleMobileMenu()
       }
     }
   })
@@ -220,165 +315,132 @@ function toggleMobileMenu() {
 }
 
 // =====================================================
-// 7. HEADER — Scroll state (logo visibility)
+// 7. HEADER — Scroll state
 // =====================================================
 const header = document.getElementById('header')
-
 window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY
-  if (scrollY > window.innerHeight * 0.5) {
-    header.classList.add('header--scrolled')
-  } else {
-    header.classList.remove('header--scrolled')
-  }
+  header.classList.toggle('header--scrolled', window.scrollY > window.innerHeight * 0.5)
 }, { passive: true })
 
 // =====================================================
-// 8. NAVIGATION — Active section highlighting
+// 8. SCROLL — Letter state machine + active nav
 // =====================================================
-function updateActiveSection() {
-  const scrollY = window.scrollY + window.innerHeight * 0.3
+function getScrollNorm() {
+  const docEl = document.documentElement
+  const scrollTop = window.scrollY
+  const scrollHeight = docEl.scrollHeight - window.innerHeight
+  return scrollHeight > 0 ? scrollTop / scrollHeight : 0
+}
 
+// Track which section info zone we're in for scrollbar decoration
+window.addEventListener('scroll', () => {
+  const scrollNorm = getScrollNorm()
+
+  // Update Three.js letters
+  if (window.__updateLetters) {
+    window.__updateLetters(scrollNorm)
+  }
+
+  // Update ambient letter opacity based on scroll
+  if (window.__ambientLetters) {
+    const ambientOpacity = scrollNorm < 0.1 ? 1 : Math.max(0, 1 - (scrollNorm - 0.1) / 0.15)
+    window.__ambientLetters.forEach((s) => {
+      s.material.opacity = s.userData.baseOpacity != null ? s.userData.baseOpacity * ambientOpacity : s.material.opacity
+    })
+  }
+
+  // Active nav section
+  const offset = window.innerHeight * 0.3
   let current = 'home'
   for (const [name, el] of Object.entries(sections)) {
     if (!el) continue
     const top = el.offsetTop
     const height = el.offsetHeight
-    if (scrollY >= top && scrollY < top + height) {
-      current = name
-      break
+    if (window.scrollY + offset >= top && window.scrollY + offset < top + height) {
+      current = name; break
     }
   }
-
   document.querySelectorAll('.header__nav li a[data-section]').forEach((link) => {
-    const section = link.dataset.section
-    link.classList.toggle('active', section === current)
+    link.classList.toggle('active', link.dataset.section === current)
   })
-}
-
-window.addEventListener('scroll', updateActiveSection, { passive: true })
-// Initial call
-setTimeout(updateActiveSection, 200)
+}, { passive: true })
 
 // =====================================================
-// 9. SCROLL REVEAL — Intersection Observer appear animations
+// 9. SCROLL REVEAL — Intersection Observer
 // =====================================================
 function initRevealAnimations() {
-  const revealElements = document.querySelectorAll('.bio__intro, .bio__columns, .bio__image, .bio__text, .projects__title, .projects__list, .awards .h1-style, .awards__list, .contact__inner')
-
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px',
-  }
-
-  const revealObserver = new IntersectionObserver((entries) => {
+  const els = document.querySelectorAll(
+    '.bio__intro, .bio__columns, .bio__image, .bio__text, .projects__title, .projects__list, .awards .h1-style, .awards__list, .contact__inner'
+  )
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('appear-translate-in-visible-active')
         entry.target.classList.remove('appear-translate-in-invisible')
-        revealObserver.unobserve(entry.target)
+        observer.unobserve(entry.target)
       }
     })
-  }, observerOptions)
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
 
-  revealElements.forEach((el) => {
+  els.forEach((el) => {
     el.classList.add('appear-translate-in-invisible')
-    revealObserver.observe(el)
+    observer.observe(el)
   })
 }
 
 // =====================================================
-// 10. PARALLAX — For bio image grid
+// 10. EMAIL COPY
 // =====================================================
-function initParallax() {
-  const bioImage = document.getElementById('bioImage')
-  if (!bioImage) return
-
-  window.addEventListener('scroll', () => {
-    const rect = bioImage.getBoundingClientRect()
-    const progress = rect.top / window.innerHeight
-    const items = bioImage.querySelectorAll('.bio__image__item')
-    items.forEach((item, i) => {
-      const offset = (i - 3) * 5
-      const translateY = Math.max(-20, Math.min(20, progress * offset * 2))
-      item.style.transform = `translateY(${translateY}px)`
-    })
-  }, { passive: true })
-}
-
-// =====================================================
-// 11. EMAIL COPY TO CLIPBOARD
-// =====================================================
-const copyLinks = document.querySelectorAll('.copy-email')
-const toast = document.getElementById('toast') || createToast()
-
-function createToast() {
+const toast = document.getElementById('toast') || (() => {
   const t = document.createElement('div')
   t.id = 'toast'
   t.className = 'toast'
   document.body.appendChild(t)
   return t
-}
+})()
 
 let toastTimer = null
-
-copyLinks.forEach((link) => {
-  link.addEventListener('click', async (e) => {
-    e.preventDefault()
-    const email = link.dataset.email
-    if (!email) return
-
-    try {
-      await navigator.clipboard.writeText(email)
-      showToast('Courriel copié!')
-    } catch {
-      const textArea = document.createElement('textarea')
-      textArea.value = email
-      textArea.style.position = 'fixed'
-      textArea.style.opacity = '0'
-      document.body.appendChild(textArea)
-      textArea.select()
-      const success = document.execCommand('copy')
-      document.body.removeChild(textArea)
-      showToast(success ? 'Courriel copié!' : 'Échec de la copie')
-    }
-  })
-})
-
 function showToast(msg) {
   if (toastTimer) clearTimeout(toastTimer)
   toast.textContent = msg
   toast.classList.add('show')
-  toastTimer = setTimeout(() => {
-    toast.classList.remove('show')
-  }, 2500)
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2500)
 }
 
-// =====================================================
-// 12. RESIZE HANDLER — Desktop detection update
-// =====================================================
-let resizeTimer
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer)
-  resizeTimer = setTimeout(() => {
-    const wasDesktop = isDesktop
-    const nowDesktop = window.innerWidth > 900 && !('ontouchstart' in window)
-    if (nowDesktop) document.body.classList.add('desktop')
-    else document.body.classList.remove('desktop')
-  }, 200)
+document.querySelectorAll('.copy-email').forEach((link) => {
+  link.addEventListener('click', async (e) => {
+    e.preventDefault()
+    const email = link.dataset.email
+    if (!email) return
+    try {
+      await navigator.clipboard.writeText(email)
+      showToast('Courriel copié!')
+    } catch {
+      const ta = document.createElement('textarea')
+      ta.value = email
+      ta.style.position = 'fixed'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.select()
+      const ok = document.execCommand('copy')
+      document.body.removeChild(ta)
+      showToast(ok ? 'Courriel copié!' : 'Échec de la copie')
+    }
+  })
 })
 
 // =====================================================
-// INIT — Boot sequence
+// INIT
 // =====================================================
 document.addEventListener('DOMContentLoaded', () => {
   initNavAnimation()
   initRevealAnimations()
-  initParallax()
 })
 
-// Start Three.js scene (loads async)
 initThreeScene()
-
-// Generate noise overlay immediately
 initNoiseOverlay()
+
+// Initial scroll update
+setTimeout(() => {
+  window.dispatchEvent(new Event('scroll'))
+}, 200)

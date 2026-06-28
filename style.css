@@ -537,6 +537,20 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--l);
+  margin-left: auto;
+  width: 42%;
+}
+
+@media (max-width: 1280px) {
+  .bio__inner { width: 50%; }
+}
+
+@media (max-width: 900px) {
+  .bio__inner { width: 100%; }
+}
+
+.bio__intro {
+  width: 85%;
 }
 
 .bio__intro h1 {
@@ -559,7 +573,7 @@ body {
 
 .bio__image {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 4px;
   width: 100%;
 }
@@ -615,12 +629,24 @@ body {
   margin-bottom: var(--xl);
   font-weight: 100;
   letter-spacing: 0.06em;
+  width: 42%;
+  margin-left: auto;
+}
+
+@media (max-width: 1280px) {
+  .projects__title { width: 50%; }
+}
+
+@media (max-width: 900px) {
+  .projects__title { width: 100%; }
 }
 
 .projects__list {
   display: flex;
   flex-direction: column;
   gap: 0;
+  width: 42%;
+  margin-left: auto;
 }
 
 .projects__list__item {
@@ -695,12 +721,24 @@ body {
   margin-bottom: var(--l);
   font-weight: 100;
   letter-spacing: 0.06em;
+  width: 42%;
+  margin-left: auto;
+}
+
+@media (max-width: 1280px) {
+  .awards .h1-style { width: 50%; }
+}
+
+@media (max-width: 900px) {
+  .awards .h1-style { width: 100%; }
 }
 
 .awards__list {
   display: flex;
   flex-direction: column;
   gap: var(--l);
+  width: 42%;
+  margin-left: auto;
 }
 
 .awards__year-group {
@@ -771,6 +809,12 @@ body {
   display: flex;
   gap: var(--xl);
   align-items: flex-start;
+  width: 42%;
+  margin-left: auto;
+}
+
+@media (max-width: 1280px) {
+  .contact__inner { width: 50%; }
 }
 
 .contact__thumb {
@@ -922,6 +966,11 @@ a.contact__link:hover {
 
   .projects__title {
     margin-bottom: var(--m);
+    width: 100%;
+  }
+
+  .projects__list {
+    width: 100%;
   }
 
   .project-name {
@@ -937,6 +986,11 @@ a.contact__link:hover {
     padding: var(--xl) 0;
   }
 
+  .awards .h1-style,
+  .awards__list {
+    width: 100%;
+  }
+
   .contact {
     padding: var(--xl) 0 var(--m);
   }
@@ -944,6 +998,7 @@ a.contact__link:hover {
   .contact__inner {
     flex-direction: column;
     gap: var(--m);
+    width: 100%;
   }
 
   .contact__thumb {
