@@ -2,19 +2,19 @@ import './style.css'
 
 // === Navigation scroll effect ===
 const navbar = document.getElementById('navbar')
-let lastScrollY = 0
 
 function handleNavScroll() {
+  if (!navbar) return
   const scrollY = window.scrollY
   if (scrollY > 50) {
     navbar.classList.add('scrolled')
   } else {
     navbar.classList.remove('scrolled')
   }
-  lastScrollY = scrollY
 }
 
 window.addEventListener('scroll', handleNavScroll, { passive: true })
+handleNavScroll()
 
 // === Section active state ===
 const navLetters = document.querySelectorAll('.nav-letter')
@@ -38,6 +38,7 @@ function updateActiveSection() {
 }
 
 window.addEventListener('scroll', updateActiveSection, { passive: true })
+updateActiveSection()
 
 // === Theme toggle ===
 const themeToggle = document.getElementById('themeToggle')
@@ -54,10 +55,12 @@ function setTheme(theme) {
   localStorage.setItem('theme', theme)
 }
 
-themeToggle.addEventListener('click', () => {
-  const current = html.getAttribute('data-theme')
-  setTheme(current === 'dark' ? 'light' : 'dark')
-})
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme')
+    setTheme(current === 'dark' ? 'light' : 'dark')
+  })
+}
 
 // Initialize theme
 setTheme(getPreferredTheme())
